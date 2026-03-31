@@ -1,9 +1,54 @@
-# Ohjelmistotekniikka, harjoitustyö
+# Sovellus talouden seurantaan
 
-Tähän tulee **ohjelmistotekniikan** harjoitustyö, aiheena *todennäköisesti* talouden seuranta.
+Tähän tulee **ohjelmistotekniikan** harjoitustyö, aiheena *talouden seuranta*.
 
-[Laskarit](https://github.com/Jaqt/ot-harjoitustyo/tree/main/laskarit)
+## Dokumentaatio
+
+[Changelog](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/changelog.md)
 
 [Vaatimusmäärittely](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/vaatimusmaarittely.md)
 
 [Tuntikirjanpito](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/tuntikirjanpito.md)
+
+
+## Asennus
+
+1. Asenna riippuvuudet komennolla:
+
+```bash
+poetry install
+```
+
+2. Luo tarvittavat ympäristömuuttujat (valinnainen):
+
+Luo .env tiedosto
+```bash
+DATABASE_FILENAME = "tähän sqlite3 tietokannan nimi"
+```
+
+3. Suorita vaadittavat alustustoimenpiteet komennolla:
+
+```bash
+poetry run python src/init_db.py
+```
+
+4. Käynnistä sovellus komennolla:
+
+```bash
+poetry run invoke start
+```
+## Testaus
+
+Voit suorittaa testit komennolla
+
+```bash
+poetry run invoke test
+```
+
+## Testikattavuus
+
+Voit generoida testikattavuusraportin komennolla:
+
+```bash
+poetry run invoke coverage-report
+```
