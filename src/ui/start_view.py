@@ -28,7 +28,8 @@ class StartView:
         )
         register_button.grid(row=1, column=1, padx=5, pady=5)
 
-        self._frame.grid(column=0, row=0, sticky=(constants.N, constants.S, constants.E, constants.W))
+        self._frame.grid(column=0, row=0, sticky=(
+            constants.N, constants.S, constants.E, constants.W))
 
     def destroy(self):
         self._frame.destroy()

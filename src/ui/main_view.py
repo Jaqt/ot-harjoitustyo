@@ -35,7 +35,8 @@ class MainView:
         )
         content_label.grid(row=1, column=0, pady=30)
 
-        self._frame.grid(column=0, row=0, sticky=(constants.N, constants.S, constants.E, constants.W))
+        self._frame.grid(column=0, row=0, sticky=(
+            constants.N, constants.S, constants.E, constants.W))
         top_bar.columnconfigure(0, weight=1)
 
     def destroy(self):

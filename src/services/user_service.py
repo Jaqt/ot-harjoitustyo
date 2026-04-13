@@ -4,14 +4,18 @@ from entities.user import User
 class UsernameExistsError(Exception):
     pass
 
+
 class InvalidCredentialsError(Exception):
     pass
+
 
 class InvalidUsernameError(Exception):
     pass
 
+
 class InvalidPasswordError(Exception):
     pass
+
 
 class UserService:
     def __init__(self, user_repository):
@@ -25,10 +29,12 @@ class UserService:
         username = username.strip()
 
         if len(username) < 3:
-            raise InvalidUsernameError("Käyttäjätunnuksen tulee olla vähintään 3 merkkiä pitkä")
+            raise InvalidUsernameError(
+                "Käyttäjätunnuksen tulee olla vähintään 3 merkkiä pitkä")
 
         if len(password) < 3:
-            raise InvalidPasswordError("Salasanan tulee olla vähintään 3 merkkiä pitkä")
+            raise InvalidPasswordError(
+                "Salasanan tulee olla vähintään 3 merkkiä pitkä")
 
         existing_user = self._user_repository.find_by_username(username)
         if existing_user:

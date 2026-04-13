@@ -37,25 +37,31 @@ class RegisterView:
         username_label = ttk.Label(master=self._frame, text="Käyttäjätunnus")
         username_label.grid(row=1, column=0, sticky=constants.W, pady=5)
 
-        username_entry = ttk.Entry(master=self._frame, textvariable=self._username_var)
+        username_entry = ttk.Entry(
+            master=self._frame, textvariable=self._username_var)
         username_entry.grid(row=1, column=1, pady=5)
 
         password_label = ttk.Label(master=self._frame, text="Salasana")
         password_label.grid(row=2, column=0, sticky=constants.W, pady=5)
 
-        password_entry = ttk.Entry(master=self._frame, textvariable=self._password_var, show="*")
+        password_entry = ttk.Entry(
+            master=self._frame, textvariable=self._password_var, show="*")
         password_entry.grid(row=2, column=1, pady=5)
 
-        register_button = ttk.Button(master=self._frame, text="Rekisteröidy", command=self._handle_register)
+        register_button = ttk.Button(
+            master=self._frame, text="Rekisteröidy", command=self._handle_register)
         register_button.grid(row=3, column=0, pady=10)
 
-        back_button = ttk.Button(master=self._frame, text="Takaisin", command=self._show_start_view)
+        back_button = ttk.Button(
+            master=self._frame, text="Takaisin", command=self._show_start_view)
         back_button.grid(row=3, column=1, pady=10)
 
-        message_label = ttk.Label(master=self._frame, textvariable=self._message_var)
+        message_label = ttk.Label(
+            master=self._frame, textvariable=self._message_var)
         message_label.grid(row=4, column=0, columnspan=2, pady=5)
 
-        self._frame.grid(column=0, row=0, sticky=(constants.N, constants.S, constants.E, constants.W))
+        self._frame.grid(column=0, row=0, sticky=(
+            constants.N, constants.S, constants.E, constants.W))
 
     def destroy(self):
         self._frame.destroy()
