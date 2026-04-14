@@ -10,6 +10,8 @@ Tähän tulee **ohjelmistotekniikan** harjoitustyö, aiheena *talouden seuranta*
 
 [Tuntikirjanpito](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/tuntikirjanpito.md)
 
+[Arkkitehtuurikuvaus](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/arkkitehtuuri.md)
+
 
 ## Asennus
 
