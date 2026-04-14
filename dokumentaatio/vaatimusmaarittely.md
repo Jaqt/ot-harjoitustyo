@@ -13,19 +13,19 @@ Alkuvaiheessa sovelluksella on ainoastaan yksi käyttäjärooli eli _normaali k�
 
 ### Ennen kirjautumista
 
-- Käyttäjä voi luoda uuden käyttäjätunnuksen
+- [x] Käyttäjä voi luoda uuden käyttäjätunnuksen [TEHTY]
   - Käyttäjätunnuksen täytyy olla uniikki ja pituudeltaan vähintään 3 merkkiä
-- Käyttäjä voi kirjautua järjestelmään
+- [x] Käyttäjä voi kirjautua järjestelmään [TEHTY]
   - Kirjautuminen onnistuu syötettäessä olemassa oleva käyttäjätunnus ja salasana kirjautumislomakkeelle
   - Jos käyttäjää ei ole olemassa, tai salasana ei täsmää, ilmoittaa järjestelmä tästä
 
 ### Kirjautumisen jälkeen
 
-- Käyttäjä näkee vain omat taloustietonsa
-- Käyttäjä voi luoda uuden tulojen ja menojen kuukausitapahtuman
-- Käyttäjä voi muokata luotuja kuukausitapahtumia
-- Käyttäjä voi poistaa luotuja kuukausitapahtumia
-- Käyttäjä voi kirjautua ulos järjestelmästä
+-  [x] Käyttäjä näkee vain omat taloustietonsa [TEHTY]
+-  [x] [KESKEN] Käyttäjä voi luoda uuden tulojen ja menojen kuukausitapahtuman 
+-  Käyttäjä voi muokata luotuja kuukausitapahtumia
+-  Käyttäjä voi poistaa luotuja kuukausitapahtumia
+-  [x] Käyttäjä voi kirjautua ulos järjestelmästä [TEHTY]
 
 ## Jatkokehitysideoita
 
