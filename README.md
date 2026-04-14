@@ -41,7 +41,7 @@ poetry run invoke start
 ```
 ## Testaus
 
-Voit suorittaa testit komennolla
+Voit suorittaa testit komennolla:
 
 ```bash
 poetry run invoke test
@@ -53,4 +53,12 @@ Voit generoida testikattavuusraportin komennolla:
 
 ```bash
 poetry run invoke coverage-report
+```
+
+## Pylint
+
+Voit suorittaa linttauksen komennolla:
+
+```bash
+poetry run invoke lint
 ```
