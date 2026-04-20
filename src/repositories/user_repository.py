@@ -30,3 +30,9 @@ class UserRepository:
                 password=row["password"],
                 user_id=row["id"]
             )
+
+    def delete_all(self):
+        with get_connection() as connection:
+            cursor = connection.cursor()
+            cursor.execute("DELETE FROM users")
+            connection.commit()
