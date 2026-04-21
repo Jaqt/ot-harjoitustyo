@@ -86,3 +86,9 @@ class TransactionRepository:
                 amount=row["amount"],
                 description=row["description"]
             )
+
+    def delete_all(self):
+        with get_connection() as connection:
+            cursor = connection.cursor()
+            cursor.execute("DELETE FROM transactions")
+            connection.commit()
