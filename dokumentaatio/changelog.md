@@ -12,3 +12,9 @@
 - Lisätty tulo- ja menotapahtumien lisäys
 - Lisätty tulo- ja menotapahtumat UI päänäkymään
 - Services kerroksen testausta laajennettu
+
+## Viikko 5
+
+- Lisätty testeille erillinen tietokanta
+- Lisätty Repository kerroksen testit
+- Lisätty tapahtumien filteröinti kuukausitasolla päänäkymään
