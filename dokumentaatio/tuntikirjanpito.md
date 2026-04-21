@@ -8,4 +8,6 @@
 | 13.4. | 1    | pylint ja autopep8 lisäys
 | 14.4. | 6    | tulo- ja menotapahtumien lisäys
 |       | 4    | testauksen laajentaminen
-| yht   | 21   | | 
+| 20.4. | 3    | Tietokanta testeille ja testien laatimista
+| 21.4. | 7    | Lisää testejä, tapahtumien filteröinti
+| yht   | 31   | | 
