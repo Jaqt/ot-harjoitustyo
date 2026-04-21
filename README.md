@@ -1,5 +1,7 @@
 # Sovellus talouden seurantaan
 
+[Release 1](https://github.com/Jaqt/ot-harjoitustyo/releases/tag/viikko5)
+
 Tähän tulee **ohjelmistotekniikan** harjoitustyö, aiheena *talouden seuranta*.
 
 ## Dokumentaatio
