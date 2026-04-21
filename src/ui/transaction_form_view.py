@@ -40,11 +40,14 @@ class TransactionFormView:
         if categories:
             self._category_var.set(categories[0])
 
+    def _get_month_number(self):
+        return MONTHS.index(self._month_var.get()) + 1
+
     def _handle_save(self):
         try:
             self._transaction_service.add_transaction(
                 year=int(self._year_var.get()),
-                month=self._month_var.get(),
+                month=self._get_month_number(),
                 transaction_type=self._type_var.get(),
                 category=self._category_var.get(),
                 amount=float(self._amount_var.get()),

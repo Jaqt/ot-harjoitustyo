@@ -1,4 +1,9 @@
-from tkinter import ttk, constants
+from datetime import datetime
+from tkinter import ttk, StringVar, constants
+
+
+MONTHS = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu",
+          "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"]
 
 
 class MainView:
@@ -10,6 +15,81 @@ class MainView:
         self._handle_logout = handle_logout
         self._handle_show_transaction_form = handle_show_transaction_form
         self._frame = None
+
+        self._month_var = StringVar()
+        self._month_options = {}
+        self._transactions_frame = None
+
+    def _format_month_option(self, year, month):
+        year = int(year)
+        month = int(month)
+        return f"{MONTHS[month - 1]} {year}"
+
+    def _initialize_month_options(self):
+        transaction_months = self._transaction_service.get_transaction_months()
+
+        self._month_options = {
+            self._format_month_option(year, month): (year, month)
+            for year, month in transaction_months
+        }
+
+    def _set_default_month(self):
+        now = datetime.now()
+        current_month_label = self._format_month_option(now.year, now.month)
+
+        if current_month_label in self._month_options:
+            self._month_var.set(current_month_label)
+        elif self._month_options:
+            first_option = list(self._month_options.keys())[0]
+            self._month_var.set(first_option)
+        else:
+            self._month_var.set("")
+
+    def _clear_transactions_frame(self):
+        for widget in self._transactions_frame.winfo_children():
+            widget.destroy()
+
+    def _show_transactions(self):
+        self._clear_transactions_frame()
+
+        selected_label = self._month_var.get()
+
+        if not selected_label:
+            no_transactions_label = ttk.Label(
+                master=self._transactions_frame,
+                text="Ei vielä tapahtumia"
+            )
+            no_transactions_label.grid(row=0, column=0, sticky=constants.W)
+            return
+
+        year, month = self._month_options[selected_label]
+        transactions = self._transaction_service.get_transactions_for_month(year, month)
+
+        if not transactions:
+            no_transactions_label = ttk.Label(
+                master=self._transactions_frame,
+                text="Ei vielä tapahtumia"
+            )
+            no_transactions_label.grid(row=0, column=0, sticky=constants.W)
+            return
+
+        for index, transaction in enumerate(transactions):
+            text = (
+                f"{transaction.month}/{transaction.year} | "
+                f"{transaction.transaction_type} | "
+                f"{transaction.category} | "
+                f"{transaction.amount} € | "
+                f"{transaction.description}"
+            )
+
+            transaction_label = ttk.Label(
+                master=self._transactions_frame,
+                text=text
+            )
+            transaction_label.grid(row=index, column=0, sticky=constants.W, pady=2)
+
+    def _handle_month_change(self, _event):
+        self._show_transactions()
 
     def pack(self):
         self._frame = ttk.Frame(master=self._root, padding=10)
@@ -36,44 +116,37 @@ class MainView:
             master=self._frame,
             text="Yhteenveto"
         )
-        content_label.grid(row=1, column=0, pady=30)
+        content_label.grid(row=1, column=0, pady=20, sticky=constants.W)
 
         add_transaction_button = ttk.Button(
             master=self._frame,
-            text="Lisää kuukausitapahtuma",
+            text="Lisää uusi tapahtuma",
             command=self._handle_show_transaction_form
         )
-        add_transaction_button.grid(row=2, column=0, pady=10)
+        add_transaction_button.grid(row=2, column=0, pady=10, sticky=constants.W)
 
-        transactions_frame = ttk.Frame(master=self._frame)
-        transactions_frame.grid(row=3, column=0, sticky=(constants.E, constants.W))
+        self._initialize_month_options()
+        self._set_default_month()
 
-        transactions = self._transaction_service.get_transactions_by_user_id(current_user.id)
+        month_combobox = ttk.Combobox(
+            master=self._frame,
+            textvariable=self._month_var,
+            values=list(self._month_options.keys()),
+            state="readonly"
+        )
+        month_combobox.grid(row=3, column=0, pady=10, sticky=constants.W)
+        month_combobox.bind("<<ComboboxSelected>>", self._handle_month_change)
 
-        if not transactions:
-            no_transactions_label = ttk.Label(
-                master=transactions_frame,
-                text="Ei vielä tapahtumia"
-            )
-            no_transactions_label.grid(row=0, column=0, sticky=constants.W)
-        else:
-            for index, transaction in enumerate(transactions):
-                text = (
-                    f"{transaction.month}/{transaction.year} | "
-                    f"{transaction.transaction_type} | "
-                    f"{transaction.category} | "
-                    f"{transaction.amount} € | "
-                    f"{transaction.description}"
-                )
+        self._transactions_frame = ttk.Frame(master=self._frame)
+        self._transactions_frame.grid(row=4, column=0, sticky=(constants.E, constants.W))
 
-                transaction_label = ttk.Label(
-                    master=transactions_frame,
-                    text=text
-                )
-                transaction_label.grid(row=index, column=0, sticky=constants.W, pady=2)
+        self._show_transactions()
 
-        self._frame.grid(column=0, row=0, sticky=(
-            constants.N, constants.S, constants.E, constants.W))
+        self._frame.grid(
+            column=0,
+            row=0,
+            sticky=(constants.N, constants.S, constants.E, constants.W)
+        )
         top_bar.columnconfigure(0, weight=1)
 
     def destroy(self):

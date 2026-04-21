@@ -63,6 +63,22 @@ class TransactionRepository:
                 ) for row in rows
             ]
 
+    def find_months_by_user_id(self, user_id):
+        with get_connection() as connection:
+            cursor = connection.cursor()
+            cursor.execute(
+                """
+                SELECT DISTINCT year, month
+                FROM transactions
+                WHERE user_id = ?
+                ORDER BY year DESC, month DESC
+                """,
+                (user_id,)
+            )
+            rows = cursor.fetchall()
+
+            return [(int(row["year"]), int(row["month"])) for row in rows]
+
     def find_by_transaction_id(self, transaction_id):
         with get_connection() as connection:
             cursor = connection.cursor()

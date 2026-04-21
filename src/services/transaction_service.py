@@ -60,3 +60,10 @@ class TransactionService:
         return self._transaction_repository.find_by_user_and_time(
             current_user.id, year, month
         )
+
+    def get_transaction_months(self):
+        current_user = self._user_service.get_current_user()
+        if not current_user:
+            raise UserNotLoggedInError("Käyttäjää ei ole kirjautuneena")
+
+        return self._transaction_repository.find_months_by_user_id(current_user.id)
