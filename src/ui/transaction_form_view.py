@@ -1,11 +1,8 @@
-
 from datetime import datetime
 from tkinter import ttk, StringVar, constants
 
-INCOME_CATEGORIES = ["Palkka", "Etuudet", "Muu tulo"]
-EXPENSE_CATEGORIES = ["Asuminen", "Ruoka", "Liikkuminen", "Terveys", "Vapaa-aika", "Muu meno"]
-MONTHS = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu",
-          "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"]
+from constants import MONTHS, INCOME_CATEGORIES, EXPENSE_CATEGORIES
+
 
 class TransactionFormView:
     def __init__(self, root, transaction_service, user_service, handle_back):

@@ -1,9 +1,7 @@
 from datetime import datetime
 from tkinter import ttk, StringVar, constants
 
-
-MONTHS = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu",
-          "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"]
+from constants import MONTHS
 
 
 class MainView:
