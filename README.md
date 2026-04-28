@@ -6,6 +6,8 @@ Tähän tulee **ohjelmistotekniikan** harjoitustyö, aiheena *talouden seuranta*
 
 ## Dokumentaatio
 
+[Käyttöohje](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/kayttoohje.md)
+
 [Changelog](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/changelog.md)
 
 [Vaatimusmäärittely](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/vaatimusmaarittely.md)
