@@ -2,6 +2,8 @@
 
 [Release 1](https://github.com/Jaqt/ot-harjoitustyo/releases/tag/viikko5)
 
+[Release 2](https://github.com/Jaqt/ot-harjoitustyo/releases/tag/viikko6)
+
 Tähän tulee **ohjelmistotekniikan** harjoitustyö, aiheena *talouden seuranta*.
 
 ## Dokumentaatio
