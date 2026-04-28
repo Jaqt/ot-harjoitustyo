@@ -10,4 +10,6 @@
 |       | 4    | testauksen laajentaminen
 | 20.4. | 3    | Tietokanta testeille ja testien laatimista
 | 21.4. | 7    | Lisää testejä, tapahtumien filteröinti
-| yht   | 31   | | 
+| 27.4. | 2    | Refaktorointi, docstring
+| 28.4. | 8    | Tapahtumien poisto, lisää docstringiä, dokumentaation tekemistä
+| yht   | 41   | | 
