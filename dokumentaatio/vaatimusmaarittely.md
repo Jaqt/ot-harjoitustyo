@@ -24,7 +24,7 @@ Alkuvaiheessa sovelluksella on ainoastaan yksi käyttäjärooli eli _normaali k�
 -  [x] Käyttäjä näkee vain omat taloustietonsa [TEHTY]
 -  [x] Käyttäjä voi luoda uuden tulojen ja menojen kuukausitapahtuman [TEHTY]
 -  [ ] Käyttäjä voi muokata luotuja kuukausitapahtumia
--  [ ] Käyttäjä voi poistaa luotuja kuukausitapahtumia
+-  [x] Käyttäjä voi poistaa luotuja kuukausitapahtumia [TEHTY]
 -  [x] Käyttäjä voi kirjautua ulos järjestelmästä [TEHTY]
 
 ## Jatkokehitysideoita
