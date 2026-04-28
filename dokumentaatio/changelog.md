@@ -18,3 +18,9 @@
 - Lisätty testeille erillinen tietokanta
 - Lisätty Repository kerroksen testit
 - Lisätty tapahtumien filteröinti kuukausitasolla päänäkymään
+
+## Viikko 6
+
+- Refaktoroitu `transaction_services` ja laitettu vakiot omaan tiedostoon
+- Lisätty docstring
+- Lisätty mahdollisuus tapahtumien poistamiseen
