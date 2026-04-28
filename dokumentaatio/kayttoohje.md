@@ -33,7 +33,7 @@ poetry run invoke start
 
 Sovellus käynnistyy aloitusnäkymään:
 
-(./kuvat/aloitusnakyma.png)
+![Aloitusnäkymä](./kuvat/aloitusnakyma.png)
 
 Sovelluksen käyttäjät ohjataan joko kirjautumaan tai rekistöimään uusi käyttäjä.
 
@@ -41,12 +41,12 @@ Sovelluksen käyttäjät ohjataan joko kirjautumaan tai rekistöimään uusi kä
 
 Rekisteröityneet käyttäjät voivat kirjautua sisään kirjautumisnäkymästä syöttämällä käyttäjätunnus ja salasana.
 
-(./kuvat/kirjautuminen.png)
+![Kirjautumisnäkymä](./kuvat/kirjautuminen.png)
 
 ## Päänäkymä
 
 Kirjautuneet käyttäjät ohjataan päänäkymään, josta näkyy viimeisimmän lisätyn kuukauden tapahtumat. 
 
-(./kuvat/paanakyma.png)
+![Päänäkymä](./kuvat/paanakyma.png)
 
 Käyttäjän on tästä näkymästä mahdollista lisätä uusia tapahtumia tai poistaa vanhoja. Dropdown valikosta käyttäjä pystyy valitsemaan menneiden kuukausien tapahtumia näkyviin. Käyttäjät voivat myös kirjautua ulos `kirjaudu ulos` nappia painamalla.
