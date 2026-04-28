@@ -1,5 +1,6 @@
 from datetime import datetime
-from tkinter import ttk, StringVar, constants
+from operator import index
+from tkinter import ttk, StringVar, constants, messagebox
 
 from constants import MONTHS
 
@@ -85,6 +86,25 @@ class MainView:
                 text=text
             )
             transaction_label.grid(row=index, column=0, sticky=constants.W, pady=2)
+
+            delete_button = ttk.Button(
+                master=self._transactions_frame,
+                text="Poista",
+                command=lambda transaction_id=transaction.id: self._handle_delete_transaction(transaction_id)
+            )
+            delete_button.grid(row=index, column=1, sticky=constants.W, padx=10, pady=2)
+
+    def _handle_delete_transaction(self, transaction_id):
+        confirm_delete = messagebox.askyesno(
+            "Poista tapahtuma",
+            "Haluatko varmasti poistaa tapahtuman?"
+        )
+
+        if not confirm_delete:
+            return
+
+        self._transaction_service.delete_transaction(transaction_id)
+        self._show_transactions()
 
     def _handle_month_change(self, _event):
         self._show_transactions()

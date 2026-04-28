@@ -156,6 +156,21 @@ class TransactionRepository:
                 description=row["description"]
             )
 
+    def delete_by_id(self, transaction_id):
+        """Poistaa tapahtuman sen ID:n perusteella.
+
+        Args:
+            transaction_id: Tapahtuman ID, joka halutaan poistaa.
+        """
+
+        with get_connection() as connection:
+            cursor = connection.cursor()
+            cursor.execute(
+                "DELETE FROM transactions WHERE id = ?",
+                (transaction_id,)
+            )
+            connection.commit()
+
     def delete_all(self):
         """Poistaa kaikki tapahtumat.
         """

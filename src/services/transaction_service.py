@@ -144,3 +144,13 @@ class TransactionService:
         current_user = self._get_current_user()
 
         return self._transaction_repository.find_months_by_user_id(current_user.id)
+
+    def delete_transaction(self, transaction_id):
+        """Poistaa tapahtuman sen ID:n perusteella.
+
+        Args:
+            transaction_id: Tapahtuman ID, joka halutaan poistaa.
+        """
+
+        transaction = self.get_transaction_by_transaction_id(transaction_id)
+        self._transaction_repository.delete_by_id(transaction.id)
