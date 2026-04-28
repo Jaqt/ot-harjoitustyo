@@ -8,6 +8,9 @@ from ui.ui import UI
 
 
 def main():
+    """Käynnistää sovelluksen.
+    """
+
     window = tk.Tk()
     window.title("Taloussovellus")
     window.geometry("1200x700")

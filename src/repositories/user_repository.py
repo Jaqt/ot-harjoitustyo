@@ -3,7 +3,20 @@ from db import get_connection
 
 
 class UserRepository:
+    """Luokka, joka vastaa käyttäjiin liittyvien tietokantaoperaatioiden
+        toteuttamisesta.
+    """
+
     def create(self, user):
+        """Tallentaa uuden käyttäjän tietokantaan.
+
+        Args:
+            user: User-olio, joka halutaan tallentaa.
+
+        Returns:
+            Tallennettu käyttäjä User-oliona.
+        """
+
         with get_connection() as connection:
             cursor = connection.cursor()
             cursor.execute(
@@ -14,6 +27,15 @@ class UserRepository:
             return user
 
     def find_by_username(self, username):
+        """Hakee käyttäjän sen käyttäjätunnuksen perusteella.
+
+        Args:
+            username: Käyttäjätunnus, jonka halutaan hakea.
+
+        Returns:
+            Käyttäjä User-oliona, jos löytyy, muuten None.
+        """
+
         with get_connection() as connection:
             cursor = connection.cursor()
             cursor.execute(
@@ -32,6 +54,9 @@ class UserRepository:
             )
 
     def delete_all(self):
+        """Poistaa kaikki käyttäjät.
+        """
+
         with get_connection() as connection:
             cursor = connection.cursor()
             cursor.execute("DELETE FROM users")

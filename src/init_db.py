@@ -5,6 +5,9 @@ from config import DATABASE_FILE_PATH
 
 
 def delete_database():
+    """Poistaa vanhan tietokantatiedoston, jos se on olemassa.
+    """
+
     db_path = DATABASE_FILE_PATH
 
     if os.path.exists(db_path):
@@ -12,6 +15,9 @@ def delete_database():
 
 
 def create_tables(connection):
+    """Luo tietokantataulut.
+    """
+
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -40,6 +46,9 @@ def create_tables(connection):
 
 
 def initialize_database():
+    """Alustaa tietokannan.
+    """
+
     delete_database()
 
     with get_connection() as connection:
