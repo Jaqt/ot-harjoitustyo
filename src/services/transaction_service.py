@@ -182,3 +182,26 @@ class TransactionService:
 
         transaction = self.get_transaction_by_transaction_id(transaction_id)
         self._transaction_repository.delete_by_id(transaction.id)
+
+    def get_summary_for_month(self, year, month):
+        """Koostaa kuukausijakson tapahtumien yhteissummat.
+
+        Args:
+            year: Vuosi, jolle tapahtumat kuuluvat.
+            month: Kuukausi, jolle tapahtumat kuuluvat.
+
+        Returns:
+            Palauttaa kysytyn kuukauden yhteenlasketut tulot ja menot.
+        """
+
+        transactions = self.get_transactions_for_month(year, month)
+
+        total_income = 0
+        total_expense = 0
+        for transaction in transactions:
+            if transaction.transaction_type == "Tulot":
+                total_income += transaction.amount
+            elif transaction.transaction_type == "Menot":
+                total_expense += transaction.amount
+
+        return total_income, total_expense

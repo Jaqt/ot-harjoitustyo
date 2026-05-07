@@ -19,6 +19,7 @@ class MainView:
         self._month_var = StringVar()
         self._month_options = {}
         self._transactions_frame = None
+        self._summary_frame = None
 
     def _format_month_option(self, year, month):
         year = int(year)
@@ -49,8 +50,13 @@ class MainView:
         for widget in self._transactions_frame.winfo_children():
             widget.destroy()
 
+    def _clear_summary_frame(self):
+        for widget in self._summary_frame.winfo_children():
+            widget.destroy()
+
     def _show_transactions(self):
         self._clear_transactions_frame()
+        self._clear_summary_frame()
 
         selected_label = self._month_var.get()
 
@@ -102,6 +108,32 @@ class MainView:
             )
             delete_button.grid(row=index, column=2, sticky=constants.W, padx=10, pady=2)
 
+        self._show_summary(year, month)
+
+    def _show_summary(self, year, month):
+        self._clear_summary_frame()
+
+        income_total, expense_total = self._transaction_service.get_summary_for_month(year, month)
+
+        summary_title = ttk.Label(
+            master=self._summary_frame,
+            text="Kuukausijakson yhteenveto",
+            font=("Arial", 12, "bold")
+        )
+        summary_title.grid(row=0, column=0, sticky=constants.W, pady=(10, 5))
+
+        income_label = ttk.Label(
+            master=self._summary_frame,
+            text=f"Tulot yhteensä: {income_total} €"
+        )
+        income_label.grid(row=1, column=0, sticky=constants.W)
+
+        expense_label = ttk.Label(
+            master=self._summary_frame,
+            text=f"Menot yhteensä: {expense_total} €"
+        )
+        expense_label.grid(row=1, column=1, sticky=constants.W)
+
     def _handle_delete_transaction(self, transaction_id):
         confirm_delete = messagebox.askyesno(
             "Poista tapahtuma",
@@ -140,7 +172,8 @@ class MainView:
 
         content_label = ttk.Label(
             master=self._frame,
-            text="Yhteenveto"
+            text="Tilanne",
+            font=("Arial", 14, "bold")
         )
         content_label.grid(row=1, column=0, pady=20, sticky=constants.W)
 
@@ -165,6 +198,9 @@ class MainView:
 
         self._transactions_frame = ttk.Frame(master=self._frame)
         self._transactions_frame.grid(row=4, column=0, sticky=(constants.E, constants.W))
+
+        self._summary_frame = ttk.Frame(master=self._frame)
+        self._summary_frame.grid(row=5, column=0, pady=10, sticky=(constants.E, constants.W))
 
         self._show_transactions()
 
