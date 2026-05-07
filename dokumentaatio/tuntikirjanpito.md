@@ -12,4 +12,5 @@
 | 21.4. | 7    | Lisää testejä, tapahtumien filteröinti
 | 27.4. | 2    | Refaktorointi, docstring
 | 28.4. | 8    | Tapahtumien poisto, lisää docstringiä, dokumentaation tekemistä
-| yht   | 41   | | 
+| 7.5.  | 5    | Tapahtumien muokkaus, kuukausijakson yhteenveto
+| yht   | 46   | | 
