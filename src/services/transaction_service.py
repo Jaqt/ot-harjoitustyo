@@ -73,6 +73,34 @@ class TransactionService:
         )
         return self._transaction_repository.create(transaction)
 
+    def update_transaction(self, transaction_id, year, month, transaction_type,
+                        category, amount, description):
+        """Päivittää olemassa olevan tapahtuman tietokannassa.
+
+        Args:
+            transaction_id: Tapahtuman ID, joka halutaan päivittää.
+            year: Vuosi, jolle tapahtuma kuuluu.
+            month: Kuukausi, jolle tapahtuma kuuluu.
+            transaction_type: Tapahtuman tyyppi.
+            category: Tapahtuman kategoria.
+            amount: Tapahtuman määrä.
+            description: Tapahtuman kuvaus/selite.
+
+        Returns:
+            Päivitetty tapahtuma Transaction-oliona.
+        """
+
+        transaction = self.get_transaction_by_transaction_id(transaction_id)
+
+        transaction.year = year
+        transaction.month = month
+        transaction.transaction_type = transaction_type
+        transaction.category = category
+        transaction.amount = amount
+        transaction.description = description
+
+        return self._transaction_repository.update(transaction)
+
     def get_transactions_by_user_id(self, user_id):
         """Palauttaa käyttäjälle kuuluvat tapahtumat.
 

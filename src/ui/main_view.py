@@ -1,5 +1,4 @@
 from datetime import datetime
-from operator import index
 from tkinter import ttk, StringVar, constants, messagebox
 
 from constants import MONTHS
@@ -7,12 +6,14 @@ from constants import MONTHS
 
 class MainView:
     def __init__(self, root, user_service, transaction_service,
-                 handle_logout, handle_show_transaction_form):
+                handle_logout, handle_show_transaction_form,
+                handle_show_edit_transaction_form):
         self._root = root
         self._user_service = user_service
         self._transaction_service = transaction_service
         self._handle_logout = handle_logout
         self._handle_show_transaction_form = handle_show_transaction_form
+        self._handle_show_edit_transaction_form = handle_show_edit_transaction_form
         self._frame = None
 
         self._month_var = StringVar()
@@ -87,12 +88,19 @@ class MainView:
             )
             transaction_label.grid(row=index, column=0, sticky=constants.W, pady=2)
 
+            edit_button = ttk.Button(
+            master=self._transactions_frame,
+            text="Muokkaa",
+            command=lambda transaction_id=transaction.id: self._handle_show_edit_transaction_form(transaction_id)
+            )
+            edit_button.grid(row=index, column=1, sticky=constants.W, padx=10, pady=2)
+
             delete_button = ttk.Button(
                 master=self._transactions_frame,
                 text="Poista",
                 command=lambda transaction_id=transaction.id: self._handle_delete_transaction(transaction_id)
             )
-            delete_button.grid(row=index, column=1, sticky=constants.W, padx=10, pady=2)
+            delete_button.grid(row=index, column=2, sticky=constants.W, padx=10, pady=2)
 
     def _handle_delete_transaction(self, transaction_id):
         confirm_delete = messagebox.askyesno(

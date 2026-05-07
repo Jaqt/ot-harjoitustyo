@@ -30,6 +30,28 @@ class TransactionRepository:
             transaction.id = cursor.lastrowid
             return transaction
 
+    def update(self, transaction):
+        """Päivittää olemassa olevan tapahtuman tietokannassa.
+
+        Args:
+            transaction: Transaction-olio, joka halutaan päivittää.
+
+        Returns:
+            Päivitetty Transaction-olio, joka sisältää tietokannasta palautuneet tiedot.
+        """
+
+        with get_connection() as connection:
+            cursor = connection.cursor()
+            cursor.execute(
+                """UPDATE transactions SET user_id = ?, year = ?, month = ?,
+                transaction_type = ?, category = ?, amount = ?, description = ?
+                WHERE id = ?""",
+                (transaction.user_id, transaction.year, transaction.month,
+                 transaction.transaction_type, transaction.category, transaction.amount,
+                 transaction.description, transaction.id)
+            )
+            return transaction
+
     def find_by_user_id(self, user_id):
         """Hakee kaikki tietyn käyttäjän tapahtumat.
 

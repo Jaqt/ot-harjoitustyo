@@ -64,7 +64,8 @@ class UI:
             self._user_service,
             self._transaction_service,
             self._logout,
-            self._show_transaction_form_view
+            self._show_transaction_form_view,
+            self._show_edit_transaction_form_view
         )
 
         self._current_view.pack()
@@ -82,4 +83,19 @@ class UI:
             self._user_service,
             self._show_main_view
         )
+        self._current_view.pack()
+
+    def _show_edit_transaction_form_view(self, transaction_id):
+        self._hide_current_view()
+
+        transaction = self._transaction_service.get_transaction_by_transaction_id(transaction_id)
+
+        self._current_view = TransactionFormView(
+            self._root,
+            self._transaction_service,
+            self._user_service,
+            self._show_main_view,
+            transaction
+        )
+
         self._current_view.pack()

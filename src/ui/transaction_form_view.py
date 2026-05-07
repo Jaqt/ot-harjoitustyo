@@ -5,23 +5,39 @@ from constants import MONTHS, INCOME_CATEGORIES, EXPENSE_CATEGORIES
 
 
 class TransactionFormView:
-    def __init__(self, root, transaction_service, user_service, handle_back):
+    def __init__(
+            self, root, transaction_service, user_service,
+            handle_back, transaction=None
+            ):
         self._root = root
         self._transaction_service = transaction_service
         self._user_service = user_service
         self._handle_back = handle_back
+        self._transaction = transaction
         self._frame = None
 
-        now = datetime.now()
-        current_year = now.year
-        current_month = MONTHS[now.month - 1]
+        if transaction:
+            year = transaction.year
+            month_name = MONTHS[int(transaction.month) - 1]
+            transaction_type = transaction.transaction_type
+            category = transaction.category
+            amount = str(transaction.amount)
+            description = transaction.description or ""
+        else:
+            now = datetime.now()
+            year = now.year
+            month_name = MONTHS[now.month - 1]
+            transaction_type = "Tulot"
+            category = ""
+            amount = ""
+            description = ""
 
-        self._year_var = StringVar(value=str(current_year))
-        self._month_var = StringVar(value=current_month)
-        self._type_var = StringVar(value="Tulot")
-        self._category_var = StringVar()
-        self._amount_var = StringVar()
-        self._description_var = StringVar()
+        self._year_var = StringVar(value=str(year))
+        self._month_var = StringVar(value=month_name)
+        self._type_var = StringVar(value=transaction_type)
+        self._category_var = StringVar(value=category)
+        self._amount_var = StringVar(value=amount)
+        self._description_var = StringVar(value=description)
         self._message_var = StringVar()
 
         self._category_combobox = None
@@ -34,7 +50,7 @@ class TransactionFormView:
     def _update_categories(self, _event=None):
         categories = self._get_categories()
         self._category_combobox["values"] = categories
-        if categories:
+        if self._category_var.get() not in categories and categories:
             self._category_var.set(categories[0])
 
     def _get_month_number(self):
@@ -42,14 +58,33 @@ class TransactionFormView:
 
     def _handle_save(self):
         try:
-            self._transaction_service.add_transaction(
-                year=int(self._year_var.get()),
-                month=self._get_month_number(),
-                transaction_type=self._type_var.get(),
-                category=self._category_var.get(),
-                amount=float(self._amount_var.get()),
-                description=self._description_var.get()
-            )
+            year = int(self._year_var.get())
+            month = self._get_month_number()
+            transaction_type = self._type_var.get()
+            category = self._category_var.get()
+            amount = float(self._amount_var.get())
+            description = self._description_var.get()
+
+            if self._transaction:
+                self._transaction_service.update_transaction(
+                    self._transaction.id,
+                    year,
+                    month,
+                    transaction_type,
+                    category,
+                    amount,
+                    description
+                )
+            else:
+                self._transaction_service.add_transaction(
+                    year,
+                    month,
+                    transaction_type,
+                    category,
+                    amount,
+                    description
+                )
+
             self._handle_back()
         except ValueError:
             self._message_var.set("Vuosi ja summa pitää antaa oikeassa muodossa")
@@ -59,7 +94,8 @@ class TransactionFormView:
     def pack(self):
         self._frame = ttk.Frame(master=self._root, padding=10)
 
-        title_label = ttk.Label(master=self._frame, text="Lisää tapahtuma")
+        title = "Muokkaa tapahtumaa" if self._transaction else "Lisää tapahtuma"
+        title_label = ttk.Label(master=self._frame, text=title)
         title_label.grid(row=0, column=0, columnspan=2, pady=10)
 
         year_label = ttk.Label(master=self._frame, text="Vuosi")
