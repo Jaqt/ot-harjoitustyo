@@ -1,5 +1,6 @@
+import csv
 from datetime import datetime
-from tkinter import ttk, StringVar, constants, messagebox
+from tkinter import ttk, StringVar, constants, messagebox, filedialog
 
 from constants import MONTHS
 
@@ -45,6 +46,36 @@ class MainView:
             self._month_var.set(first_option)
         else:
             self._month_var.set("")
+
+    def _handle_export_csv(self):
+        selected_label = self._month_var.get()
+
+        if not selected_label:
+            messagebox.showinfo("Vie CSV", "Ei vietävää kuukautta valittuna.")
+            return
+
+        year, month = self._month_options[selected_label]
+        header, rows = self._transaction_service.get_csv_export_data_for_month(year, month)
+
+        if not rows:
+            messagebox.showinfo("Vie CSV", "Valitulla kuukaudella ei ole tapahtumia.")
+            return
+
+        filepath = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV-tiedostot", "*.csv")],
+            initialfile=f"tapahtumat_{year}_{month}.csv"
+        )
+
+        if not filepath:
+            return
+
+        with open(filepath, "w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(header)
+            writer.writerows(rows)
+
+        messagebox.showinfo("Vie CSV", "Kuukausijakson tapahtumat tallennettu tiedostoon.")
 
     def _clear_transactions_frame(self):
         for widget in self._transactions_frame.winfo_children():
@@ -195,6 +226,13 @@ class MainView:
         )
         month_combobox.grid(row=3, column=0, pady=10, sticky=constants.W)
         month_combobox.bind("<<ComboboxSelected>>", self._handle_month_change)
+
+        export_csv = ttk.Button(
+            master=self._frame,
+            text="Vie CSV",
+            command=self._handle_export_csv
+        )
+        export_csv.grid(row=3, column=1, pady=10, sticky=constants.W)
 
         self._transactions_frame = ttk.Frame(master=self._frame)
         self._transactions_frame.grid(row=4, column=0, sticky=(constants.E, constants.W))

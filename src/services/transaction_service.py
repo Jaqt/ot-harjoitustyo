@@ -205,3 +205,40 @@ class TransactionService:
                 total_expense += transaction.amount
 
         return total_income, total_expense
+
+    def get_csv_export_data_for_month(self, year, month):
+        """Palauttaa valitun ajankohdan tapahtumat CSV-tiedoston luontia varten.
+
+        Args:
+            year: Vuosi, jolle tapahtumat kuuluvat.
+            month: Kuukausi, jolle tapahtumat kuuluvat.
+
+        Returns:
+            Palauttaa listan otsikoita ja listan tapahtumatietoja, jossa jokainen
+            solu on lista yhden tapahtuman tiedoista.
+        """
+
+        transactions = self.get_transactions_for_month(year, month)
+
+        header = [
+            "Vuosi",
+            "Kuukausi",
+            "Tyyppi",
+            "Kategoria",
+            "Summa",
+            "Selite"
+        ]
+
+        rows = [
+            [
+                transaction.year,
+                transaction.month,
+                transaction.transaction_type,
+                transaction.category,
+                transaction.amount,
+                transaction.description
+            ]
+            for transaction in transactions
+        ]
+
+        return header, rows
