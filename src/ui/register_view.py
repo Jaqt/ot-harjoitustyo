@@ -7,7 +7,20 @@ from services.user_service import (
 
 
 class RegisterView:
+    """Uuden käyttäjän rekisteröitymisestä vastaava luokka."""
+
     def __init__(self, root, user_service, show_main_view, show_start_view):
+        """Luokan konstruktori, joka luo uuden rekisteröitymisnäkymän.
+
+        Args:
+            root: Tkinterin elementti, johon näkymä asetetaan.
+            user_service:
+                UserService-olio, joka vastaa käyttäjiin liittyvästä
+                sovelluslogiikasta.
+            show_main_view: kutsuttava arvo, joka näyttää päänäkymän.
+            show_start_view: kutsuttava arvo, joka näyttää aloitusnäkymän.
+        """
+
         self._root = root
         self._user_service = user_service
         self._show_main_view = show_main_view
@@ -29,6 +42,8 @@ class RegisterView:
             self._message_var.set(str(error))
 
     def pack(self):
+        """Näyttää näkymän."""
+
         self._frame = ttk.Frame(master=self._root, padding=10)
 
         title_label = ttk.Label(master=self._frame, text="Rekisteröidy")
@@ -64,4 +79,6 @@ class RegisterView:
             constants.N, constants.S, constants.E, constants.W))
 
     def destroy(self):
+        """Tuhoaa näkymän."""
+
         self._frame.destroy()

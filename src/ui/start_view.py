@@ -2,13 +2,25 @@ from tkinter import ttk, constants
 
 
 class StartView:
+    """Sovelluksen aloitusnäkymästä vastaava luokka."""
+
     def __init__(self, root, show_login_view, show_register_view):
+        """Luokan konstruktori, joka luo uuden aloitusnäkymän.
+
+        Args:
+            root: Tkinterin elementti, johon näkymä asetetaan.
+            show_login_view: Kutsuttava arvo, joka näyttää kirjautumisnäkymän.
+            show_register_view: Kutsuttava arvo, joka näyttää rekisteröitymisnäkymän.
+        """
+
         self._root = root
         self._show_login_view = show_login_view
         self._show_register_view = show_register_view
         self._frame = None
 
     def pack(self):
+        """Näyttää näkymän."""
+
         self._frame = ttk.Frame(master=self._root, padding=10)
 
         title_label = ttk.Label(master=self._frame, text="Taloussovellus")
@@ -32,4 +44,6 @@ class StartView:
             constants.N, constants.S, constants.E, constants.W))
 
     def destroy(self):
+        """Tuhoaa näkymän."""
+
         self._frame.destroy()

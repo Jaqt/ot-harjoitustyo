@@ -8,9 +8,28 @@ from constants import MONTHS
 
 
 class MainView:
+    """Päänäkymästä vastaava luokka."""
+
     def __init__(self, root, user_service, transaction_service,
                 handle_logout, handle_show_transaction_form,
                 handle_show_edit_transaction_form):
+        """Luokan konstruktori, joka luo uuden päänäkymän.
+
+        Args:
+            root: Tkinterin elementti, johon näkymä asetetaan.
+            user_service:
+                UserService-olio, joka vastaa käyttäjiin liittyvästä
+                sovelluslogiikasta.
+            transaction_service:
+                TransactionService-olio, joka vastaa tapahtumiin liittyvästä
+                sovelluslogiikasta.
+            handle_logout: Kutsuttava arvo, joka kirjaa käyttäjän ulos.
+            handle_show_transaction_form:
+                Kutsuttava arvo, joka näyttää tapahtuman lisäyslomakkeen.
+            handle_show_edit_transaction_form:
+                Kutsuttava arvo, joka näyttää tapahtuman muokkauslomakkeen.
+        """
+
         self._root = root
         self._user_service = user_service
         self._transaction_service = transaction_service
@@ -236,6 +255,8 @@ class MainView:
         self._show_category_chart(year, month)
 
     def pack(self):
+        """Näyttää näkymän."""
+
         self._frame = ttk.Frame(master=self._root, padding=10)
 
         current_user = self._user_service.get_current_user()
@@ -319,4 +340,6 @@ class MainView:
         top_bar.columnconfigure(0, weight=1)
 
     def destroy(self):
+        """Tuhoaa näkymän."""
+
         self._frame.destroy()

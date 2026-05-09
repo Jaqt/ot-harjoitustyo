@@ -5,10 +5,26 @@ from constants import MONTHS, INCOME_CATEGORIES, EXPENSE_CATEGORIES
 
 
 class TransactionFormView:
+    """Tapahtuman luomisesta ja muokkaamisesta vastaava luokka."""
+
     def __init__(
             self, root, transaction_service, user_service,
             handle_back, transaction=None
             ):
+        """Luokan konstruktori, joka luo uuden tapahtumanäkymän.
+
+        Args:
+            root: Tkinterin elementti, johon näkymä asetetaan.
+            transaction_service:
+                TransactionService-olio, joka vastaa tapahtumiin liittyvästä
+                sovelluslogiikasta.
+            user_service:
+                UserService-olio, joka vastaa käyttäjiin liittyvästä
+                sovelluslogiikasta.
+            handle_back: Kutsuttava arvo, joka palauttaa edelliseen näkymään.
+            transaction: Transaction-olio, joka muokataan. Oletuksena None.
+        """
+
         self._root = root
         self._transaction_service = transaction_service
         self._user_service = user_service
@@ -92,6 +108,8 @@ class TransactionFormView:
             self._message_var.set(str(error))
 
     def pack(self):
+        """Näyttää näkymän."""
+
         self._frame = ttk.Frame(master=self._root, padding=10)
 
         title = "Muokkaa tapahtumaa" if self._transaction else "Lisää tapahtuma"
@@ -163,4 +181,6 @@ class TransactionFormView:
         self._frame.grid(column=0, row=0, sticky=(constants.N, constants.S, constants.E, constants.W))
 
     def destroy(self):
+        """Tuhoaa näkymän."""
+
         self._frame.destroy()

@@ -20,7 +20,7 @@ class TransactionService:
                 TodoRepository-olio, joka vastaa tapahtumiin liittyvistä
                 tietokantaoperaatioista.
             user_service:
-                UserService-olio, joka vastaa käyttäjiin liittyvistä
+                UserService-olio, joka vastaa käyttäjiin liittyvästä
                 sovelluslogiikasta.
         """
 

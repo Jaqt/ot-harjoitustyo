@@ -6,13 +6,29 @@ from ui.transaction_form_view import TransactionFormView
 
 
 class UI:
+    """Sovelluksen käyttöliittymästä vastaava luokka."""
+
     def __init__(self, root, user_service, transaction_service):
+        """Luokan konstruktori, joka luo uuden käyttöliittymästä vastaavan luokan.
+        
+        Args:
+            root: Tkinterin elementti, johon näkymä asetetaan.
+            user_service:
+                UserService-olio, joka vastaa käyttäjiin liittyvästä
+                sovelluslogiikasta.
+            transaction_service:
+                TransactionService-olio, joka vastaa tapahtumiin liittyvästä
+                sovelluslogiikasta.
+        """
+
         self._root = root
         self._user_service = user_service
         self._transaction_service = transaction_service
         self._current_view = None
 
     def start(self):
+        """Käynnistää käyttöliittymän näyttämällä aloitusnäkymän."""
+
         self._show_start_view()
 
     def _hide_current_view(self):
