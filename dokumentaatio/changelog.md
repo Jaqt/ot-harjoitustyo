@@ -24,3 +24,8 @@
 - Refaktoroitu `transaction_services` ja laitettu vakiot omaan tiedostoon
 - Lisätty docstring
 - Lisätty mahdollisuus tapahtumien poistamiseen
+
+## Viikko 7
+
+- Lisätty mahdollisuus tapahtumien muokkaukseen
+- Lisätty kuukausijakson tapahtumien yhteenveto
