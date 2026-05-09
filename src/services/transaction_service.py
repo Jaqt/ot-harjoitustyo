@@ -9,7 +9,7 @@ class TransactionNotFoundError(Exception):
 
 
 class TransactionService:
-    """Luokka, joka vastaa tapahtumiin liittyvistä sovelluslogiikasta.
+    """Luokka, joka vastaa tapahtumiin liittyvästä sovelluslogiikasta.
     """
 
     def __init__(self, transaction_repository, user_service):
@@ -242,3 +242,34 @@ class TransactionService:
         ]
 
         return header, rows
+
+    def get_category_distribution_for_month(self, year, month, transaction_type):
+        """Palauttaa valitun kuukauden tapahtumien kategoriakohtaisen jakauman.
+
+        Args:
+            year: Vuosi, jolle tapahtumat kuuluvat.
+            month: Kuukausi, jolle tapahtumat kuuluvat.
+            transaction_type: Tapahtumaluokka, jonka jakauma halutaan hakea.
+
+        Returns:
+            Palauttaa listan kategorioiden nimistä ja
+            listan niiden arvoista.
+        """
+
+        transactions = self.get_transactions_for_month(year, month)
+
+        category_totals = {}
+
+        for transaction in transactions:
+            if transaction.transaction_type != transaction_type:
+                continue
+
+            if transaction.category not in category_totals:
+                category_totals[transaction.category] = 0
+
+            category_totals[transaction.category] += transaction.amount
+
+        labels = list(category_totals.keys())
+        values = list(category_totals.values())
+
+        return labels, values
