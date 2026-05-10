@@ -7,32 +7,30 @@ Sovelluksen avulla käyttäjien on mahdollista seurata henkilökohtaista taloutt
 
 ## Käyttäjät
 
-Alkuvaiheessa sovelluksella on ainoastaan yksi käyttäjärooli eli _normaali käyttäjä_. Myöhemmin sovellukseen saatetaan lisätä _perhetili_, jonka taloustietoja voivat tarkastella kaikki tiliin liitetyt käyttäjät.
+Sovelluksella on ainoastaan yksi käyttäjärooli eli _normaali käyttäjä_.
 
 ## Perusversion tarjoama toiminnallisuus
 
 ### Ennen kirjautumista
 
-- [x] Käyttäjä voi luoda uuden käyttäjätunnuksen [TEHTY]
+- Käyttäjä voi luoda uuden käyttäjätunnuksen
   -  Käyttäjätunnuksen täytyy olla uniikki ja pituudeltaan vähintään 3 merkkiä
-- [x] Käyttäjä voi kirjautua järjestelmään [TEHTY]
+- Käyttäjä voi kirjautua järjestelmään
   -  Kirjautuminen onnistuu syötettäessä olemassa oleva käyttäjätunnus ja salasana kirjautumislomakkeelle
   -  Jos käyttäjää ei ole olemassa, tai salasana ei täsmää, ilmoittaa järjestelmä tästä
 
 ### Kirjautumisen jälkeen
 
--  [x] Käyttäjä näkee vain omat taloustietonsa [TEHTY]
--  [x] Käyttäjä voi luoda uuden tulojen ja menojen kuukausitapahtuman [TEHTY]
--  [ ] Käyttäjä voi muokata luotuja kuukausitapahtumia
--  [x] Käyttäjä voi poistaa luotuja kuukausitapahtumia [TEHTY]
--  [x] Käyttäjä voi kirjautua ulos järjestelmästä [TEHTY]
+-  Käyttäjä näkee vain omat taloustietonsa
+-  Käyttäjä voi luoda uuden tulojen ja menojen kuukausitapahtuman
+-  Käyttäjä voi muokata luotuja kuukausitapahtumia
+-  Käyttäjä voi poistaa luotuja kuukausitapahtumia
+-  Tietojen vienti CSV-tiedostoon
+-  Käyttäjä voi kirjautua ulos järjestelmästä
 
 ## Jatkokehitysideoita
 
-Perusversion jälkeen järjestelmää täydennetään ajan salliessa esim. seuraavilla toiminnallisuuksilla:
-
 - usean käyttäjän yhteinen _perhetili_
-- tietojen vienti esim. CSV-tiedostoon
 - taloustietojen koonti kvartaali ja/tai vuositasolla
 - analytiikkaa esim. keskikulutuksesta kategorioittain
 - ohjelman laajentaminen muilla henkilökohtaisen talouden työkaluilla
