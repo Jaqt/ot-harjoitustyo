@@ -13,4 +13,7 @@
 | 27.4. | 2    | Refaktorointi, docstring
 | 28.4. | 8    | Tapahtumien poisto, lisää docstringiä, dokumentaation tekemistä
 | 7.5.  | 5    | Tapahtumien muokkaus, kuukausijakson yhteenveto
-| yht   | 46   | | 
+| 9.5.  | 8    | vienti csv-tiedostoon, ympyrädiagrammit visualisointiin
+|       |      | Lisää testejä, lisää docstringiä
+| 10.5. | 4    | UI:n muokkausta, syötteiden validointia
+| yht   | 58   | | 
