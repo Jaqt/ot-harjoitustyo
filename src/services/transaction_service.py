@@ -47,7 +47,7 @@ class TransactionService:
             raise UserNotLoggedInError("Käyttäjää ei ole kirjautuneena")
         return current_user
 
-    def _validate_transaction_data(self, year, month, amount):
+    def _validate_transaction_data(self, year, month, amount, description=""):
         """Tapahtuman validoinnista vastaava apumetodi."""
 
         if year < 1900 or year > 2100:
@@ -64,6 +64,9 @@ class TransactionService:
 
         if amount <= 0:
             raise InvalidTransactionError("Summan pitää olla positiivinen")
+
+        if len(description) > 100:
+            raise InvalidTransactionError("Selite saa olla enintään 100 merkkiä pitkä")
 
     def add_transaction(
             self, year, month, transaction_type, category, amount, description
@@ -83,7 +86,7 @@ class TransactionService:
         """
 
         current_user = self._get_current_user()
-        self._validate_transaction_data(year, month, amount)
+        self._validate_transaction_data(year, month, amount, description)
 
         transaction = Transaction(
             user_id=current_user.id,
@@ -113,7 +116,7 @@ class TransactionService:
             Päivitetty tapahtuma Transaction-oliona.
         """
 
-        self._validate_transaction_data(year, month, amount)
+        self._validate_transaction_data(year, month, amount, description)
         transaction = self.get_transaction_by_transaction_id(transaction_id)
 
         transaction.year = year
