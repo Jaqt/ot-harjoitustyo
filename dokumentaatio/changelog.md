@@ -29,3 +29,7 @@
 
 - Lisätty mahdollisuus tapahtumien muokkaukseen
 - Lisätty kuukausijakson tapahtumien yhteenveto
+- Lisätty tapahtumien vienti CSV-tiedostoon
+- Lisätty matplotlib-kirjasto tapahtumien visualisointiin
+- Laajennettu testausta ja docstringiä
+- Paranneltu käyttäjän syötteiden validointia
