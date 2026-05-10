@@ -4,6 +4,8 @@ Tähän tulee **ohjelmistotekniikan** harjoitustyö, aiheena *talouden seuranta*
 
 ## Release
 
+[Loppupalautus](https://github.com/Jaqt/ot-harjoitustyo/releases/tag/Loppupalautus)
+
 [Release 2](https://github.com/Jaqt/ot-harjoitustyo/releases/tag/viikko6)
 
 [Release 1](https://github.com/Jaqt/ot-harjoitustyo/releases/tag/viikko5)
