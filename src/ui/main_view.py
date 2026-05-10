@@ -1,4 +1,5 @@
 import csv
+import tkinter as tk
 from datetime import datetime
 from tkinter import ttk, StringVar, constants, messagebox, filedialog
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -40,6 +41,11 @@ class MainView:
 
         self._month_var = StringVar()
         self._month_options = {}
+
+        self._transactions_container = None
+        self._transactions_canvas = None
+        self._transactions_canvas_window = None
+        self._transactions_scrollbar = None
         self._transactions_frame = None
         self._summary_frame = None
 
@@ -59,6 +65,13 @@ class MainView:
             for year, month in transaction_months
         }
 
+    def _format_description(self, description, max_length=14):
+        if not description:
+            return ""
+        if len(description) <= max_length:
+            return description
+        return description[:max_length - 3] + "..."
+
     def _set_default_month(self):
         now = datetime.now()
         current_month_label = self._format_month_option(now.year, now.month)
@@ -74,7 +87,7 @@ class MainView:
     def _handle_export_csv(self):
         selected_label = self._month_var.get()
 
-        if not selected_label:
+        if selected_label not in self._month_options:
             messagebox.showinfo("Vie CSV", "Ei vietävää kuukautta valittuna.")
             return
 
@@ -101,81 +114,90 @@ class MainView:
 
         messagebox.showinfo("Vie CSV", "Kuukausijakson tapahtumat tallennettu tiedostoon.")
 
-    def _clear_transactions_frame(self):
-        for widget in self._transactions_frame.winfo_children():
+    def _clear_frame(self, frame):
+        for widget in frame.winfo_children():
             widget.destroy()
 
-    def _clear_summary_frame(self):
-        for widget in self._summary_frame.winfo_children():
-            widget.destroy()
+    def _show_empty_state(self, year=None, month=None):
+        no_transactions_label = ttk.Label(
+            master=self._transactions_frame,
+            text="Ei vielä tapahtumia."
+        )
+        no_transactions_label.grid(row=0, column=0, sticky=constants.W)
 
-    def _clear_chart_frame(self):
-        for widget in self._chart_frame.winfo_children():
-            widget.destroy()
+        if year is None or month is None:
+            now = datetime.now()
+            year = now.year
+            month = now.month
+
+        self._show_summary(year, month)
+        self._show_category_chart(year, month)
 
     def _show_transactions(self):
-        self._clear_transactions_frame()
-        self._clear_summary_frame()
-        self._clear_chart_frame()
+        self._clear_frame(self._transactions_frame)
+        self._clear_frame(self._summary_frame)
+        self._clear_frame(self._chart_frame)
 
         selected_label = self._month_var.get()
 
-        if not selected_label:
-            no_transactions_label = ttk.Label(
-                master=self._transactions_frame,
-                text="Ei vielä tapahtumia"
-            )
-            no_transactions_label.grid(row=0, column=0, sticky=constants.W)
-
-            now = datetime.now()
-            self._show_summary(now.year, now.month)
-            self._show_category_chart(now.year, now.month)
+        if selected_label not in self._month_options:
+            self._show_empty_state()
             return
 
         year, month = self._month_options[selected_label]
         transactions = self._transaction_service.get_transactions_for_month(year, month)
 
         if not transactions:
-            no_transactions_label = ttk.Label(
-                master=self._transactions_frame,
-                text="Ei vielä tapahtumia"
-            )
-            no_transactions_label.grid(row=0, column=0, sticky=constants.W)
-
-            self._show_summary(year, month)
-            self._show_category_chart(year, month)
+            self._show_empty_state(year, month)
             return
 
         for index, transaction in enumerate(transactions):
-            text = (
-                f"{transaction.month}/{transaction.year} | "
-                f"{transaction.transaction_type} | "
-                f"{transaction.category} | "
-                f"{transaction.amount} € | "
-                f"{transaction.description}"
-            )
+            row_frame = ttk.Frame(master=self._transactions_frame)
+            row_frame.grid(row=index, column=0, sticky=(constants.W, constants.E), pady=2)
 
-            transaction_label = ttk.Label(
-                master=self._transactions_frame,
-                text=text
+            type_label = ttk.Label(
+                master=row_frame,
+                text=transaction.transaction_type,
+                width=6
             )
-            transaction_label.grid(row=index, column=0, sticky=constants.W, pady=2)
+            type_label.grid(row=0, column=0, sticky=constants.W, padx=(0, 6))
+
+            category_label = ttk.Label(
+                master=row_frame,
+                text=transaction.category,
+                width=10
+            )
+            category_label.grid(row=0, column=1, sticky=constants.W, padx=(0, 6))
+
+            amount_label = ttk.Label(
+                master=row_frame,
+                text=f"{transaction.amount} €",
+                width=8
+            )
+            amount_label.grid(row=0, column=2, sticky=constants.W, padx=(0, 6))
+
+            description_label = ttk.Label(
+                master=row_frame,
+                text=self._format_description(transaction.description),
+                width=14
+            )
+            description_label.grid(row=0, column=3, sticky=constants.W, padx=(0, 6))
 
             edit_button = ttk.Button(
-                master=self._transactions_frame,
+                master=row_frame,
                 text="Muokkaa",
                 command=lambda transaction_id=transaction.id:
                     self._handle_show_edit_transaction_form(transaction_id)
             )
-            edit_button.grid(row=index, column=1, sticky=constants.W, padx=10, pady=2)
+            edit_button.grid(row=0, column=4, sticky=constants.W, padx=(0, 6))
 
             delete_button = ttk.Button(
-                master=self._transactions_frame,
+                master=row_frame,
                 text="Poista",
                 command=lambda transaction_id=transaction.id:
                     self._handle_delete_transaction(transaction_id)
             )
-            delete_button.grid(row=index, column=2, sticky=constants.W, padx=10, pady=2)
+            delete_button.grid(row=0, column=5, sticky=constants.W, padx=(0, 6))
 
         self._show_summary(year, month)
         self._show_category_chart(year, month)
@@ -196,7 +218,7 @@ class MainView:
         self._show_transactions()
 
     def _show_summary(self, year, month):
-        self._clear_summary_frame()
+        self._clear_frame(self._summary_frame)
 
         income_total, expense_total = self._transaction_service.get_summary_for_month(year, month)
 
@@ -220,7 +242,7 @@ class MainView:
         expense_label.grid(row=1, column=1, sticky=constants.W)
 
     def _show_category_chart(self, year, month):
-        self._clear_chart_frame()
+        self._clear_frame(self._chart_frame)
 
         transaction_type = self._chart_type_var.get()
         labels, values = self._transaction_service.get_category_distribution_for_month(
@@ -248,7 +270,7 @@ class MainView:
     def _handle_chart_change(self, _event):
         selected_label = self._month_var.get()
 
-        if not selected_label:
+        if selected_label not in self._month_options:
             return
 
         year, month = self._month_options[selected_label]
@@ -258,6 +280,7 @@ class MainView:
         """Näyttää näkymän."""
 
         self._frame = ttk.Frame(master=self._root, padding=10)
+        self._frame.columnconfigure(0, weight=1)
 
         current_user = self._user_service.get_current_user()
 
@@ -294,41 +317,122 @@ class MainView:
         self._initialize_month_options()
         self._set_default_month()
 
+        controls_frame = ttk.Frame(master=self._frame)
+        controls_frame.grid(row=3, column=0, pady=10, sticky=constants.W)
+
         month_combobox = ttk.Combobox(
-            master=self._frame,
+            master=controls_frame,
             textvariable=self._month_var,
             values=list(self._month_options.keys()),
             state="readonly"
         )
-        month_combobox.grid(row=3, column=0, pady=10, sticky=constants.W)
+        month_combobox.grid(row=0, column=0, padx=(0, 10), sticky=constants.W)
         month_combobox.bind("<<ComboboxSelected>>", self._handle_month_change)
 
         export_csv = ttk.Button(
-            master=self._frame,
+            master=controls_frame,
             text="Vie CSV",
             command=self._handle_export_csv
         )
-        export_csv.grid(row=3, column=1, pady=10, sticky=constants.W)
+        export_csv.grid(row=0, column=1, sticky=constants.W)
 
-        self._transactions_frame = ttk.Frame(master=self._frame)
-        self._transactions_frame.grid(row=4, column=0, sticky=(constants.E, constants.W))
+        content_frame = ttk.Frame(master=self._frame)
+        content_frame.grid(row=4, column=0, pady=10, sticky=(constants.W, constants.E))
 
-        self._summary_frame = ttk.Frame(master=self._frame)
-        self._summary_frame.grid(row=5, column=0, pady=10, sticky=(constants.E, constants.W))
+        content_frame.columnconfigure(0, minsize=520, weight=0)
+        content_frame.columnconfigure(1, minsize=320, weight=1)
+
+        self._transactions_container = ttk.LabelFrame(
+            master=content_frame,
+            text="Tapahtumat",
+            padding=10
+        )
+        self._transactions_container.grid(
+            row=0,
+            column=0,
+            padx=(0, 10),
+            sticky=(constants.N, constants.S, constants.W, constants.E)
+        )
+
+        self._transactions_canvas = tk.Canvas(
+            master=self._transactions_container,
+            height=220
+        )
+
+        self._transactions_scrollbar = ttk.Scrollbar(
+            master=self._transactions_container,
+            orient="vertical",
+            command=self._transactions_canvas.yview
+        )
+
+        self._transactions_frame = ttk.Frame(master=self._transactions_canvas)
+        self._transactions_frame.columnconfigure(0, weight=1)
+
+        self._transactions_frame.bind(
+            "<Configure>",
+            lambda event: self._transactions_canvas.configure(
+                scrollregion=self._transactions_canvas.bbox("all")
+            )
+        )
+
+        self._transactions_canvas_window = self._transactions_canvas.create_window(
+            (0, 0),
+            window=self._transactions_frame,
+            anchor="nw"
+        )
+
+        self._transactions_canvas.configure(
+            yscrollcommand=self._transactions_scrollbar.set
+        )
+
+        self._transactions_canvas.bind(
+            "<Configure>",
+            lambda event: self._transactions_canvas.itemconfigure(
+                self._transactions_canvas_window,
+                width=event.width
+            )
+        )
+
+        self._transactions_canvas.grid(
+            row=0,
+            column=0,
+            sticky=(constants.N, constants.S, constants.W, constants.E)
+        )
+        self._transactions_scrollbar.grid(row=0, column=1, sticky=(constants.N, constants.S))
+
+        self._transactions_container.columnconfigure(0, weight=1)
+        self._transactions_container.rowconfigure(0, weight=1)
+
+        chart_panel = ttk.LabelFrame(
+            master=content_frame,
+            text="Kategoriakaavio",
+            padding=10
+        )
+        chart_panel.columnconfigure(0, weight=1)
+        chart_panel.grid(
+            row=0,
+            column=1,
+            sticky=constants.N
+        )
 
         chart_type_combobox = ttk.Combobox(
-            master=self._frame,
+            master=chart_panel,
             textvariable=self._chart_type_var,
             values=["Tulot", "Menot"],
             state="readonly"
         )
-        chart_type_combobox.grid(row=6, column=0, pady=10, sticky=constants.W)
+        chart_type_combobox.grid(row=0, column=0, pady=(0, 10), sticky=constants.W)
         chart_type_combobox.bind("<<ComboboxSelected>>", self._handle_chart_change)
 
-        self._chart_frame = ttk.Frame(master=self._frame)
-        self._chart_frame.grid(
-            row=7, column=0, columnspan=2, pady=10, sticky=(constants.W, constants.E)
+        self._chart_frame = ttk.Frame(master=chart_panel)
+        self._chart_frame.grid(row=1, column=0, sticky=constants.W)
+
+        self._summary_frame = ttk.LabelFrame(
+            master=self._frame,
+            text="Yhteenveto",
+            padding=10
         )
+        self._summary_frame.grid(row=5, column=0, pady=10, sticky=(constants.W, constants.E))
 
         self._show_transactions()
 

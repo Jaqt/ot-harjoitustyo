@@ -13,7 +13,7 @@ def main():
 
     window = tk.Tk()
     window.title("Taloussovellus")
-    window.geometry("1200x700")
+    window.geometry("1024x768")
 
     user_repository = UserRepository()
     transaction_repository = TransactionRepository()
