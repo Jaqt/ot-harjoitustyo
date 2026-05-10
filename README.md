@@ -1,22 +1,26 @@
 # Sovellus talouden seurantaan
 
-[Release 1](https://github.com/Jaqt/ot-harjoitustyo/releases/tag/viikko5)
+Tähän tulee **ohjelmistotekniikan** harjoitustyö, aiheena *talouden seuranta*.
+
+## Release
 
 [Release 2](https://github.com/Jaqt/ot-harjoitustyo/releases/tag/viikko6)
 
-Tähän tulee **ohjelmistotekniikan** harjoitustyö, aiheena *talouden seuranta*.
+[Release 1](https://github.com/Jaqt/ot-harjoitustyo/releases/tag/viikko5)
 
 ## Dokumentaatio
 
 [Käyttöohje](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/kayttoohje.md)
 
-[Changelog](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/changelog.md)
-
 [Vaatimusmäärittely](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/vaatimusmaarittely.md)
+
+[Arkkitehtuurikuvaus](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/arkkitehtuuri.md)
+
+[Testausdokumentti](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/testaus.md)
 
 [Tuntikirjanpito](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/tuntikirjanpito.md)
 
-[Arkkitehtuurikuvaus](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/arkkitehtuuri.md)
+[Changelog](https://github.com/Jaqt/ot-harjoitustyo/blob/main/dokumentaatio/changelog.md)
 
 
 ## Asennus
