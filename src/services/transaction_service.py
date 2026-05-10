@@ -1,3 +1,4 @@
+import math
 from entities.transaction import Transaction
 
 
@@ -5,6 +6,9 @@ class UserNotLoggedInError(Exception):
     pass
 
 class TransactionNotFoundError(Exception):
+    pass
+
+class InvalidTransactionError(Exception):
     pass
 
 
@@ -17,7 +21,7 @@ class TransactionService:
 
         Args:
             transaction_repository:
-                TodoRepository-olio, joka vastaa tapahtumiin liittyvistä
+                TransactionRepository-olio, joka vastaa tapahtumiin liittyvistä
                 tietokantaoperaatioista.
             user_service:
                 UserService-olio, joka vastaa käyttäjiin liittyvästä
@@ -43,6 +47,24 @@ class TransactionService:
             raise UserNotLoggedInError("Käyttäjää ei ole kirjautuneena")
         return current_user
 
+    def _validate_transaction_data(self, year, month, amount):
+        """Tapahtuman validoinnista vastaava apumetodi."""
+
+        if year < 1900 or year > 2100:
+            raise InvalidTransactionError("Vuoden pitää olla välillä 1900-2100")
+
+        if month < 1 or month > 12:
+            raise InvalidTransactionError("Kuukauden pitää olla välillä 1-12")
+
+        if not math.isfinite(amount):
+            raise InvalidTransactionError("Summan pitää olla äärellinen luku")
+
+        if amount > 2147483647:
+            raise InvalidTransactionError("Summa on liian suuri")
+
+        if amount <= 0:
+            raise InvalidTransactionError("Summan pitää olla positiivinen")
+
     def add_transaction(
             self, year, month, transaction_type, category, amount, description
             ):
@@ -61,6 +83,7 @@ class TransactionService:
         """
 
         current_user = self._get_current_user()
+        self._validate_transaction_data(year, month, amount)
 
         transaction = Transaction(
             user_id=current_user.id,
@@ -90,6 +113,7 @@ class TransactionService:
             Päivitetty tapahtuma Transaction-oliona.
         """
 
+        self._validate_transaction_data(year, month, amount)
         transaction = self.get_transaction_by_transaction_id(transaction_id)
 
         transaction.year = year
